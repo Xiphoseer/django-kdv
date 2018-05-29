@@ -1,0 +1,20 @@
+{% extends "kdv/base.html" %}{% load i18n %}
+
+{% block page %}
+  {% trans "buy product" as tr_buy_product %}
+  <h2>{{tr_buy_product|capfirst}}</h2>
+
+  <div class="product">
+    <dl>
+      <dt>{% trans 'barcode' as tr_price %}{{tr_price|capfirst}}</dt><dd>{{object.barcode}}</dd>
+      <dt>{% trans 'name' as tr_price %}{{tr_price|capfirst}}</dt><dd>{{object.name}}</dd>
+      <dt>{% trans 'price' as tr_price %}{{tr_price|capfirst}}</dt><dd>{{object.currency}}</dd>
+    </dl>
+  </div>
+
+  <form method="POST">
+    {{form}}
+    {% csrf_token %}
+    <button type="submit">{% trans "record" %}</button>
+  </form>
+{% endblock %}

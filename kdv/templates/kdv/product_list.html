@@ -1,0 +1,34 @@
+{% extends "kdv/base.html" %}{% load i18n sekizai_tags %}
+
+{% block page %}
+  {% addtoblock "css" %}
+    <style type="text/css">
+      .table-products tr.category { background-color: #eee; }
+    </style>
+  {% endaddtoblock %}
+
+  {% trans "productlist" as tr_productlist %}
+  {% trans "buy" as tr_buy %}
+  <h2>{{tr_productlist|capfirst}}</h2>
+  <table class="table table-bordered table-products">
+    <tr>
+      <th>{% trans "code" as tr_code %}{{tr_code|capfirst}}</th>
+      <th>{% trans "name" as tr_code %}{{tr_code|capfirst}}</th>
+      <th>{% trans "price" as tr_code %}{{tr_code|capfirst}}</th>
+      <th>{% trans "store" as tr_code %}{{tr_code|capfirst}}</th>
+      <th>{% trans "action" as tr_code %}{{tr_code|capfirst}}</th>
+    </tr>
+  	{% for cat in categories %}
+  	<tr class="category"><th colspan="5">{{cat.name}}</th></tr>
+    {% for product in cat.product_set.all %}
+    <tr>
+      <td>{{product.barcode}}</td>
+      <td>{{product.name}}</td>
+      <td>{{product.currency}}</td>
+      <td>{{product.storage}}</td>
+      <td><a class="btn btn-success" href="{% url 'kdv:buy_product' product.barcode %}">{{tr_buy|capfirst}}</a></td>
+    </tr>
+    {% endfor %}
+  	{% endfor %}
+  </table>
+{% endblock %}

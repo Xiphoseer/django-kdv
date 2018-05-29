@@ -1,0 +1,79 @@
+{% extends "kdv/base.html" %}{% load i18n %}
+
+{% block page %}
+
+  <h2><strong>Saldo</strong>:
+    {% if account.saldo > 0 %}
+    <span class="text-success">{{account.currency}}</span>
+    {% elif account.saldo < 0 %}
+    <span class="text-danger">{{account.currency}}</span>
+    {% else %}{{account.currency}}{% endif %}
+  </h2>
+  <table class="table table-ledger">
+    {% spaceless %}
+    {% for entry in ledger %}
+    <tr>
+      <td>{{entry.registered|date:"d.m.Y H:i:s e"}}</td>
+      {% if entry.type == "transaction" %}
+      {% if entry.acc_to == account %}
+      {% if entry.acc_from == account %}
+      <td colspan="4">Self-Transaction</td>
+      {% else %}
+      <td></td>
+      <td>Transaction from {{entry.acc_from}}</td>
+      <td class="text-success">{{entry.currency}}</td>
+      <td>
+        {% if entry.state == 'AC' %}
+          {% trans "return" as tr_return %}
+          <a href="#">{{tr_return|capfirst}}</a>
+        {% elif entry.state == 'CH' %}
+          {% trans "return challenged" as tr_return_challenged %}
+          <a href="#">{{tr_return_challenged|capfirst}}</a>
+        {% else %}
+          {% trans "returned" as tr_returned %}
+          <strong>{{tr_returned|capfirst}}</strong>
+        {% endif %}
+      </td>
+      {% endif %}
+      {% else %}
+      <td></td>
+      <td>Transaction to {{entry.acc_to}}</td>
+      <td class="text-danger">{{entry.inv_currency}}</td>
+      <td>
+        {% if entry.state == 'AC' %}
+          {% trans "challenge" as tr_challenge %}
+          <a href="#">{{tr_challenge|capfirst}}</a>
+        {% elif entry.state == 'CH' %}
+          {% trans "unchallange" as tr_unchallenge %}
+          <a href="#">{{tr_unchallenge|capfirst}}</a>
+        {% else %}
+          {% trans "returned" as tr_returned %}
+          <strong>{{tr_returned|capfirst}}</strong>
+        {% endif %}
+      </td>
+      {% endif %}
+      {% elif entry.type == "record" %}
+      <td>{{entry.barcode}}</td>
+      <td>{{entry.name}}</td>
+      {% if entry.cost > 0 %}
+      <td class="text-danger">
+      {% elif entry.cost < 0 %}
+      <td class="text-success">
+      {% else %}<td>{% endif %}
+      {{entry.inv_currency}}
+      </td>
+      <td>
+        {% if entry.state == 'AC' %}
+          {% trans "revoke" as tr_revoke %}
+          <a href='#'>{{tr_revoke|capfirst}}</a>
+        {% else %}
+          {% trans 'revoked' as tr_revoked %}
+          <strong>{{tr_revoked|capfirst}}</strong>
+        {% endif %}
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+    {% endspaceless %}
+  </table>
+{% endblock %}

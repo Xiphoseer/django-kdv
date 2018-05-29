@@ -1,0 +1,11 @@
+{% extends "kdv/base.html" %}{% load i18n %}
+
+{% block page %}
+  {% trans "add transaction" as tr_add_transaction %}
+  <h2>{{tr_add_transaction|capfirst}}</h2>
+  <form method="POST">
+    {{form}}
+    {% csrf_token %}
+    <button type="submit">{% trans "confirm" %}</button>
+  </form>
+{% endblock %}

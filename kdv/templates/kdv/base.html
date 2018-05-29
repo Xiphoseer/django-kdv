@@ -1,0 +1,10 @@
+{% extends "kdv/html.html" %}
+
+{% block wrapper %}
+  {% block page %}
+    {% include "kdv/navbar.html" %}
+    {% block content %}
+      kdv:base: no 'content' block provided!
+    {% endblock %}
+  {% endblock %}
+{% endblock %}

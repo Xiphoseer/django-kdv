@@ -1,0 +1,7 @@
+{% extends "kdv/base.html" %}{% load i18n %}
+
+{% block page %}
+  {% trans "account" as tr_account %}
+  <h2>{{tr_account|capfirst}}</h2>
+  {{ account.user.username }}
+{% endblock %}
