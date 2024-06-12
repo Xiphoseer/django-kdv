@@ -96,6 +96,10 @@ class BuyProductView(FormView, DetailView):
         kwargs = self.request.resolver_match.kwargs
         return get_object_or_404(Product, **kwargs)
 
+    def form_invalid(self, form):
+        self.object = self.get_object()
+        return super().form_invalid(form)
+
     def form_valid(self, form):
         kwargs = self.request.resolver_match.kwargs
         form.record(Account.objects.current(self.request.user), **kwargs)
@@ -116,6 +120,11 @@ class ProductListView(ListView):
     template_name = 'kdv/product_list.html'
     model = Category
     context_object_name = 'categories'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({'form': BuyProductForm(initial={'amount':1})})
+        return context
 
 class AccountView(DetailView):
     template_name = 'kdv/account.html'

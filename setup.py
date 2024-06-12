@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     license='MIT',
-    description='django framwork for a bank of trust',
+    description='django framework for a bank of trust',
     long_description='README.md',
     url='https://github.com/Xiphoseer/django-kdv',
     author='Daniel Schweighöfer',

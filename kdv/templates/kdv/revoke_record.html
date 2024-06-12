@@ -1,0 +1,17 @@
+{% extends "kdv/base.html" %}{% load i18n %}
+
+{% block page %}
+  {% trans "revoke" as tr_revoke %}
+  {% trans "time" as tr_time %}
+  {% trans "name" as tr_name %}
+  {% trans "amount" as tr_amount %}
+  {% trans "revoke record" as tr_revoke_record %}
+
+  <h2>{{tr_revoke_record|capfirst}}</h2>
+  <dl>
+    <dt>{{tr_time|capfirst}}</dt><dd>{{object.registered|date:'d.m.Y H:i:s e'}}</dd>
+    <dt>{{tr_name|capfirst}}</dt><dd>{{object.name}}</dd>
+    <dt>{{tr_amount|capfirst}}</dt><dd>{{object.currency}}</dd>
+  </dl>
+  {% include "kdv/confirm.html" with submit=tr_revoke|capfirst %}
+{% endblock %}
